@@ -8,7 +8,8 @@ function App() {
   const [truth, setTruth] = useState(null);
   const newPlayer = useRef(null);
 
-  const addUserHandler = () => {
+  const addUserHandler = (e) => {
+    e.preventDefault();
     const data = newPlayer.current.value;
     setPlayer((prev) => [...prev, data]);
     newPlayer.current.value = "";
@@ -87,18 +88,20 @@ function App() {
           })}
         </ol>
         <div className="pt-4 flex items-center">
-          <input
-            type="text"
-            placeholder="Name..."
-            ref={newPlayer}
-            className="py-2 px-2 outline-none rounded-lg hover:ring-teal-400 ring-2 focus:ring-teal-400 mr-4 w-[80%]"
-          />
-          <button
-            className="bg-teal-400 rounded-full p-2 text-white text-sm"
-            onClick={() => addUserHandler()}
-          >
-            OK
-          </button>
+          <form onSubmit={(e) => addUserHandler(e)}>
+            <input
+              type="text"
+              placeholder="Name..."
+              ref={newPlayer}
+              className="py-2 px-2 outline-none rounded-lg hover:ring-teal-400 ring-2 focus:ring-teal-400 mr-4 w-[80%]"
+            />
+            <button
+              className="bg-teal-400 rounded-full p-2 text-white text-sm"
+              // onClick={() => addUserHandler()}
+            >
+              OK
+            </button>
+          </form>
         </div>
       </div>
     </main>

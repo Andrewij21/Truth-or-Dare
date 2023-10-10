@@ -24,12 +24,10 @@ function App() {
   };
 
   function pickRandom() {
-    console.log("masuk");
     let i = 0;
     let r = 0;
     setIsLoading(true);
     const randomName = Math.floor(Math.random() * player.length);
-    console.log({ randomName });
     const randomTruth = Math.floor(Math.random() * data.length);
     let t = setInterval(() => {
       i++;
@@ -37,15 +35,13 @@ function App() {
         i = 0;
         r++;
       }
-      if (r == 3) {
+      setChosen(player[i]);
+      if (r == 2) {
         setChosen(player[randomName]);
-        console.log(chosen);
         setTruth(data[randomTruth]);
         setIsLoading(false);
         clearInterval(t);
-        return;
       }
-      setChosen(player[i]);
     }, 200);
   }
   useEffect(() => {

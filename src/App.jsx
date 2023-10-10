@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { BsFillTrashFill } from "react-icons/bs";
+import data from "../data.json";
 
 function App() {
   const [player, setPlayer] = useState([]);
   const [chosen, setChosen] = useState(null);
+  const [truth, setTruth] = useState(null);
   const newPlayer = useRef(null);
 
   const addUserHandler = () => {
@@ -21,6 +23,7 @@ function App() {
   function pickRandomName() {
     const randomIndex = Math.floor(Math.random() * player.length);
     setChosen(player[randomIndex]);
+    setTruth(data[randomIndex]);
   }
   useEffect(() => {
     const getPlayer = JSON.parse(localStorage.getItem("player")) || [];
@@ -49,13 +52,8 @@ function App() {
           Start
         </button>
       </div>
-      <div className="bg-white max-w-xl mx-auto rounded-xl">
-        <p className="p-12 ">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque
-          facilis quia quibusdam doloremque odit! Quidem nesciunt consequatur,
-          eum voluptas illo reprehenderit animi explicabo ipsa fugiat cumque rem
-          quia odio doloribus!
-        </p>
+      <div className="bg-white max-w-xl mx-auto rounded-xl h-44">
+        <p className="p-12 ">{truth}</p>
       </div>
       <div className="fixed top-0 left-0 bg-white py-4 px-6 w-[22%] text-left rounded-b-xl">
         <ol className="list-decimal text-md marker:text-xl capitalize px-1 ">

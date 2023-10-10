@@ -9,6 +9,12 @@ function App() {
     setPlayer((prev) => [...prev, data]);
     newPlayer.current.value = "";
   };
+
+  const removeUserHandler = (name) => {
+    const updatedPlayer = player.filter((user) => user !== name);
+    setPlayer(updatedPlayer);
+    localStorage.setItem("player", JSON.stringify(updatedPlayer));
+  };
   useEffect(() => {
     const getPlayer = JSON.parse(localStorage.getItem("player")) || [];
     setPlayer(getPlayer);
@@ -49,7 +55,10 @@ function App() {
               >
                 {p}
                 <span>
-                  <BsFillTrashFill className="cursor-pointer fill-rose-600" />
+                  <BsFillTrashFill
+                    className="cursor-pointer fill-rose-600"
+                    onClick={() => removeUserHandler(p)}
+                  />
                 </span>
               </li>
             );

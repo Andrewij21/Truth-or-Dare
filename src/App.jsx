@@ -87,8 +87,11 @@ function App() {
             );
           })}
         </ol>
-        <div className="pt-4 flex items-center">
-          <form onSubmit={(e) => addUserHandler(e)}>
+        <div>
+          <form
+            onSubmit={(e) => addUserHandler(e)}
+            className="pt-4 flex items-center"
+          >
             <input
               type="text"
               placeholder="Name..."

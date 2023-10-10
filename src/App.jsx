@@ -21,22 +21,33 @@ function App() {
   };
 
   function pickRandom() {
+    let i = 0;
+    let r = 0;
     const randomName = Math.floor(Math.random() * player.length);
     const randomTruth = Math.floor(Math.random() * data.length);
-    setChosen(player[randomName]);
-    setTruth(data[randomTruth]);
+    let t = setInterval(() => {
+      i++;
+      if (i === player.length) {
+        i = 0;
+        r++;
+      }
+      if (r == 3) {
+        setChosen(player[randomName]);
+        setTruth(data[randomTruth]);
+        clearInterval(t);
+      }
+      setChosen(player[i]);
+    }, 200);
   }
   useEffect(() => {
     const getPlayer = JSON.parse(localStorage.getItem("player")) || [];
     setPlayer(getPlayer);
-    console.log("ni player", getPlayer);
   }, []);
   useEffect(() => {
     // Save player state to localStorage whenever it changes
     if (player.length !== 0) {
       localStorage.setItem("player", JSON.stringify(player));
     }
-    console.log("player baru", player);
   }, [player]);
 
   return (

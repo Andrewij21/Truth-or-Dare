@@ -20,10 +20,11 @@ function App() {
     localStorage.setItem("player", JSON.stringify(updatedPlayer));
   };
 
-  function pickRandomName() {
-    const randomIndex = Math.floor(Math.random() * player.length);
-    setChosen(player[randomIndex]);
-    setTruth(data[randomIndex]);
+  function pickRandom() {
+    const randomName = Math.floor(Math.random() * player.length);
+    const randomTruth = Math.floor(Math.random() * data.length);
+    setChosen(player[randomName]);
+    setTruth(data[randomTruth]);
   }
   useEffect(() => {
     const getPlayer = JSON.parse(localStorage.getItem("player")) || [];
@@ -47,7 +48,7 @@ function App() {
         </h2>
         <button
           className="rounded-lg px-6 py-2 text-xl bg-teal-400 text-white outline-none hover:ring-teal-400 hover:ring-2 hover:bg-teal-600"
-          onClick={() => pickRandomName()}
+          onClick={() => pickRandom()}
         >
           Start
         </button>

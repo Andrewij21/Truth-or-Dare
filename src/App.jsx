@@ -3,7 +3,9 @@ import { BsFillTrashFill } from "react-icons/bs";
 
 function App() {
   const [player, setPlayer] = useState([]);
+  const [chosen, setChosen] = useState(null);
   const newPlayer = useRef(null);
+
   const addUserHandler = () => {
     const data = newPlayer.current.value;
     setPlayer((prev) => [...prev, data]);
@@ -15,6 +17,11 @@ function App() {
     setPlayer(updatedPlayer);
     localStorage.setItem("player", JSON.stringify(updatedPlayer));
   };
+
+  function pickRandomName() {
+    const randomIndex = Math.floor(Math.random() * player.length);
+    setChosen(player[randomIndex]);
+  }
   useEffect(() => {
     const getPlayer = JSON.parse(localStorage.getItem("player")) || [];
     setPlayer(getPlayer);
@@ -32,8 +39,13 @@ function App() {
     <main className="font-mukta h-screen mx-auto bg-slate-800 text-center ">
       <h1 className="text-6xl uppercase py-4  text-white">truth or dare</h1>
       <div className="py-12">
-        <h2 className="text-4xl capitalize text-white py-4 mb-6">Andre</h2>
-        <button className="rounded-lg px-6 py-2 text-xl bg-teal-400 text-white outline-none hover:ring-teal-400 hover:ring-2 hover:bg-teal-600">
+        <h2 className="text-4xl capitalize text-white py-4 mb-6 h-24">
+          {chosen}
+        </h2>
+        <button
+          className="rounded-lg px-6 py-2 text-xl bg-teal-400 text-white outline-none hover:ring-teal-400 hover:ring-2 hover:bg-teal-600"
+          onClick={() => pickRandomName()}
+        >
           Start
         </button>
       </div>

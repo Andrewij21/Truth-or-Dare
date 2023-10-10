@@ -52,8 +52,8 @@ function App() {
           Start
         </button>
       </div>
-      <div className="bg-white max-w-xl mx-auto rounded-xl h-44">
-        <p className="p-12 ">{truth}</p>
+      <div className="bg-white max-w-xl mx-auto rounded-xl h-44 grid place-items-center">
+        <p className="p-12 text-xl">{truth}</p>
       </div>
       <div className="fixed top-0 left-0 bg-white py-4 px-6 w-[22%] text-left rounded-b-xl">
         <ol className="list-decimal text-md marker:text-xl capitalize px-1 ">

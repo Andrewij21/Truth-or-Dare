@@ -6,6 +6,8 @@ function App() {
   const [player, setPlayer] = useState([]);
   const [chosen, setChosen] = useState(null);
   const [truth, setTruth] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const newPlayer = useRef(null);
 
   const addUserHandler = (e) => {
@@ -22,8 +24,10 @@ function App() {
   };
 
   function pickRandom() {
+    console.log("masuk");
     let i = 0;
     let r = 0;
+    setIsLoading(true);
     const randomName = Math.floor(Math.random() * player.length);
     const randomTruth = Math.floor(Math.random() * data.length);
     let t = setInterval(() => {
@@ -35,6 +39,7 @@ function App() {
       if (r == 3) {
         setChosen(player[randomName]);
         setTruth(data[randomTruth]);
+        setIsLoading(false);
         clearInterval(t);
       }
       setChosen(player[i]);
@@ -60,6 +65,7 @@ function App() {
         </h2>
         <button
           className="rounded-lg px-6 py-2 text-xl bg-teal-400 text-white outline-none hover:ring-teal-400 hover:ring-2 hover:bg-teal-600"
+          disabled={isLoading || player.length === 0 ? true : false}
           onClick={() => pickRandom()}
         >
           Start

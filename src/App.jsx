@@ -81,8 +81,10 @@ function App() {
 
   return (
     <main className="font-mukta h-screen mx-auto bg-slate-800 text-center ">
-      <h1 className="text-6xl uppercase py-4  text-white">truth or dare</h1>
-      <div className="py-12">
+      <h1 className="text-6xl uppercase py-4 mb-12 text-white">
+        truth or dare
+      </h1>
+      <div className="py-8">
         <h2 className="text-4xl capitalize text-white py-4 mb-6 h-24">
           {chosen}
         </h2>

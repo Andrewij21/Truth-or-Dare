@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { BsFillTrashFill } from "react-icons/bs";
-import { truth } from "../data.json";
+import { truth, dare } from "../data.json";
 
 function App() {
   const [player, setPlayer] = useState([]);
   const [chosen, setChosen] = useState("");
   const [selectedTruth, setSelectedTruth] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState(["truth"]);
 
   const newPlayer = useRef(null);
 
@@ -23,12 +24,26 @@ function App() {
     localStorage.setItem("player", JSON.stringify(updatedPlayer));
   };
 
+  const toggleCategory = (category) => {
+    if (selectedCategories.includes(category)) {
+      if (selectedCategories.length !== 1)
+        setSelectedCategories(selectedCategories.filter((c) => c !== category));
+    } else {
+      setSelectedCategories([...selectedCategories, category]);
+    }
+
+    console.log(selectedCategories);
+  };
   function pickRandom() {
     let i = 0;
     let r = 0;
     setIsLoading(true);
     const randomName = Math.floor(Math.random() * player.length);
     const randomTruth = Math.floor(Math.random() * truth.length);
+    const randomDare = Math.floor(Math.random() * dare.length);
+    const randomTruuthOrDare = Math.floor(
+      Math.random() * (dare.length + truth.length)
+    );
     let t = setInterval(() => {
       i++;
       if (i === player.length) {
@@ -38,7 +53,19 @@ function App() {
       setChosen(player[i]);
       if (r == 2) {
         setChosen(player[randomName]);
-        setSelectedTruth(truth[randomTruth]);
+        if (selectedCategories.includes("truth")) {
+          if (selectedCategories.includes("dare")) {
+            setSelectedTruth([...truth, ...dare][randomTruuthOrDare]);
+          }
+          setSelectedTruth(truth[randomTruth]);
+        }
+        if (selectedCategories.includes("dare")) {
+          console.log("masuk dare");
+          if (selectedCategories.includes("truth")) {
+            setSelectedTruth([...truth, ...dare][randomTruuthOrDare]);
+          }
+          setSelectedTruth(dare[randomDare]);
+        }
         setIsLoading(false);
         clearInterval(t);
       }
@@ -69,6 +96,36 @@ function App() {
         >
           Start
         </button>
+        <div className="flex justify-evenly mt-6 w-1/2 mx-auto text-white">
+          <div className="flex items-center outline-none">
+            <input
+              id="truth"
+              type="checkbox"
+              value="truth"
+              name="category"
+              className="w-4 h-4 focus:text-blue-600 bg-gray-100"
+              onChange={() => toggleCategory("truth")}
+              checked={selectedCategories.includes("truth")}
+            />
+            <label htmlFor="truth" className="ml-2 font-medium">
+              Truth
+            </label>
+          </div>
+          <div className="flex items-center">
+            <input
+              id="dare"
+              type="checkbox"
+              value="dare"
+              name="category"
+              className="w-4 h-4 text-blue-600 bg-gray-100 focus:ring-blue-500"
+              onChange={() => toggleCategory("dare")}
+              checked={selectedCategories.includes("dare")}
+            />
+            <label htmlFor="dare" className="ml-2 font-medium">
+              Dare
+            </label>
+          </div>
+        </div>
       </div>
       <div className="bg-white max-w-xl mx-auto rounded-xl h-44 grid place-items-center">
         <p className="p-12 text-xl">{selectedTruth}</p>

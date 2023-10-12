@@ -31,8 +31,6 @@ function App() {
     } else {
       setSelectedCategories([...selectedCategories, category]);
     }
-
-    console.log(selectedCategories);
   };
   function pickRandom() {
     let i = 0;
@@ -60,7 +58,6 @@ function App() {
           setSelectedTruth(truth[randomTruth]);
         }
         if (selectedCategories.includes("dare")) {
-          console.log("masuk dare");
           if (selectedCategories.includes("truth")) {
             setSelectedTruth([...truth, ...dare][randomTruuthOrDare]);
           }

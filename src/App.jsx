@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { BsFillTrashFill } from "react-icons/bs";
-import data from "../data.json";
+import { truth } from "../data.json";
 
 function App() {
   const [player, setPlayer] = useState([]);
   const [chosen, setChosen] = useState("");
-  const [truth, setTruth] = useState(null);
+  const [selectedTruth, setSelectedTruth] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const newPlayer = useRef(null);
@@ -28,7 +28,7 @@ function App() {
     let r = 0;
     setIsLoading(true);
     const randomName = Math.floor(Math.random() * player.length);
-    const randomTruth = Math.floor(Math.random() * data.length);
+    const randomTruth = Math.floor(Math.random() * truth.length);
     let t = setInterval(() => {
       i++;
       if (i === player.length) {
@@ -38,7 +38,7 @@ function App() {
       setChosen(player[i]);
       if (r == 2) {
         setChosen(player[randomName]);
-        setTruth(data[randomTruth]);
+        setSelectedTruth(truth[randomTruth]);
         setIsLoading(false);
         clearInterval(t);
       }
@@ -71,7 +71,7 @@ function App() {
         </button>
       </div>
       <div className="bg-white max-w-xl mx-auto rounded-xl h-44 grid place-items-center">
-        <p className="p-12 text-xl">{truth}</p>
+        <p className="p-12 text-xl">{selectedTruth}</p>
       </div>
       <div className="md:fixed md:top-0 md:left-0 bg-white py-4 px-6 w-full mt-4 md:mt-0 md:w-[22%] text-left rounded-b-xl">
         <ol className="list-decimal text-md marker:text-xl capitalize px-1 ">

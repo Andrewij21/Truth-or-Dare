@@ -5,9 +5,9 @@ import { truth, dare } from "../data.json";
 function App() {
   const [player, setPlayer] = useState([]);
   const [chosen, setChosen] = useState("");
-  const [selectedTruth, setSelectedTruth] = useState(null);
+  const [selectedMessage, setSelectedMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedCategories, setSelectedCategories] = useState(["truth"]);
+  const [selectedCategories, setSelectedCategories] = useState("truth");
 
   const newPlayer = useRef(null);
 
@@ -24,24 +24,14 @@ function App() {
     localStorage.setItem("player", JSON.stringify(updatedPlayer));
   };
 
-  const toggleCategory = (category) => {
-    if (selectedCategories.includes(category)) {
-      if (selectedCategories.length !== 1)
-        setSelectedCategories(selectedCategories.filter((c) => c !== category));
-    } else {
-      setSelectedCategories([...selectedCategories, category]);
-    }
+  const toggleCategory = (e) => {
+    setSelectedCategories(e.target.value);
   };
-  function pickRandom() {
+  function pickRandomName() {
     let i = 0;
     let r = 0;
-    setIsLoading(true);
     const randomName = Math.floor(Math.random() * player.length);
-    const randomTruth = Math.floor(Math.random() * truth.length);
-    const randomDare = Math.floor(Math.random() * dare.length);
-    const randomTruuthOrDare = Math.floor(
-      Math.random() * (dare.length + truth.length)
-    );
+    setIsLoading(true);
     let t = setInterval(() => {
       i++;
       if (i === player.length) {
@@ -51,18 +41,29 @@ function App() {
       setChosen(player[i]);
       if (r == 2) {
         setChosen(player[randomName]);
-        if (selectedCategories.includes("truth")) {
-          if (selectedCategories.includes("dare")) {
-            setSelectedTruth([...truth, ...dare][randomTruuthOrDare]);
-          }
-          setSelectedTruth(truth[randomTruth]);
-        }
-        if (selectedCategories.includes("dare")) {
-          if (selectedCategories.includes("truth")) {
-            setSelectedTruth([...truth, ...dare][randomTruuthOrDare]);
-          }
-          setSelectedTruth(dare[randomDare]);
-        }
+        setIsLoading(false);
+        clearInterval(t);
+      }
+    }, 200);
+  }
+  function pickRandomMessage() {
+    let i = 0;
+    let r = 0;
+    setIsLoading(true);
+    let data;
+    console.log(selectedCategories);
+    if (selectedCategories == "truth")
+      data = truth[Math.floor(Math.random() * truth.length)];
+    else data = dare[Math.floor(Math.random() * dare.length)];
+    let t = setInterval(() => {
+      i++;
+      if (i === player.length) {
+        i = 0;
+        r++;
+      }
+      setSelectedMessage(truth[i]);
+      if (r == 2) {
+        setSelectedMessage(data);
         setIsLoading(false);
         clearInterval(t);
       }
@@ -85,26 +86,35 @@ function App() {
         truth or dare
       </h1>
       <div className="py-8">
-        <h2 className="text-4xl capitalize text-white py-4 mb-6 h-24">
-          {chosen}
-        </h2>
+        <div className="rounded-xl bg-white max-w-md mb-12 h-20 mx-auto flex items-center justify-around px-4">
+          <h2 className="text-3xl capitalize flex-1 text-teal-400">{chosen}</h2>
+          <button
+            className="rounded-lg px-6 py-2 text-xl bg-teal-400 text-white outline-none hover:ring-teal-400 hover:ring-2 hover:bg-teal-600"
+            disabled={isLoading || player.length === 0 ? true : false}
+            onClick={() => pickRandomName()}
+          >
+            Pick name
+          </button>
+        </div>
         <button
           className="rounded-lg px-6 py-2 text-xl bg-teal-400 text-white outline-none hover:ring-teal-400 hover:ring-2 hover:bg-teal-600"
           disabled={isLoading || player.length === 0 ? true : false}
-          onClick={() => pickRandom()}
+          onClick={() => pickRandomMessage()}
         >
-          Start
+          pick message
         </button>
-        <div className="flex justify-evenly mt-6 w-1/2 mx-auto text-white">
+        <div
+          className="flex justify-evenly mt-6 w-1/2 mx-auto text-white "
+          onChange={toggleCategory}
+        >
           <div className="flex items-center outline-none">
             <input
               id="truth"
-              type="checkbox"
+              type="radio"
               value="truth"
               name="category"
               className="w-4 h-4 focus:text-blue-600 bg-gray-100"
-              onChange={() => toggleCategory("truth")}
-              checked={selectedCategories.includes("truth")}
+              defaultChecked
             />
             <label htmlFor="truth" className="ml-2 font-medium">
               Truth
@@ -113,12 +123,10 @@ function App() {
           <div className="flex items-center">
             <input
               id="dare"
-              type="checkbox"
+              type="radio"
               value="dare"
               name="category"
               className="w-4 h-4 text-blue-600 bg-gray-100 focus:ring-blue-500"
-              onChange={() => toggleCategory("dare")}
-              checked={selectedCategories.includes("dare")}
             />
             <label htmlFor="dare" className="ml-2 font-medium">
               Dare
@@ -127,7 +135,7 @@ function App() {
         </div>
       </div>
       <div className="bg-white max-w-xl mx-auto rounded-xl h-44 grid place-items-center">
-        <p className="p-12 text-xl">{selectedTruth}</p>
+        <p className="p-12 text-xl">{selectedMessage}</p>
       </div>
       <div className="md:fixed md:top-0 md:left-0 bg-white py-4 px-6 w-full mt-4 md:mt-0 md:w-[22%] text-left rounded-b-xl">
         <ol className="list-decimal text-md marker:text-xl capitalize px-1 ">

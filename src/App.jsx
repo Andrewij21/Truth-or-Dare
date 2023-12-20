@@ -82,10 +82,8 @@ function App() {
 
   return (
     <main className="font-mukta min-h-screen mx-auto bg-slate-800 text-center ">
-      <h1 className="text-6xl uppercase py-4 mb-12 text-white">
-        truth or dare
-      </h1>
-      <div className="py-8">
+      <h1 className="text-5xl py-12 uppercase text-white">truth or dare</h1>
+      <div className="">
         <div className="rounded-xl bg-white max-w-md mb-12 h-20 mx-auto flex items-center justify-around px-4">
           <h2 className="text-3xl capitalize flex-1 text-teal-400">{chosen}</h2>
           <button

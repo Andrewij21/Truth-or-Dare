@@ -81,7 +81,7 @@ function App() {
   }, [player]);
 
   return (
-    <main className="font-mukta h-screen mx-auto bg-slate-800 text-center ">
+    <main className="font-mukta min-h-screen mx-auto bg-slate-800 text-center ">
       <h1 className="text-6xl uppercase py-4 mb-12 text-white">
         truth or dare
       </h1>

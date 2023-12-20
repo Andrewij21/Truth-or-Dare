@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { BsArrowDown, BsFillTrashFill } from "react-icons/bs";
+import PropTypes from "prop-types";
 
 const dropIn = {
   visible: {
@@ -34,12 +35,14 @@ const arrow = {
     rotate: 0,
   },
 };
-
-function AddPlayer() {
+function AddPlayer({ player, addUserHandler, deleteUserHandler }) {
   const [visible, setVisible] = useState(false);
+  const newPlayer = useRef(null);
+
   const toggleMenu = () => {
     setVisible(!visible);
   };
+
   return (
     <motion.div className="absolute top-0 left-0 min-w-[16rem]">
       <AnimatePresence mode="popLayout">
@@ -53,11 +56,14 @@ function AddPlayer() {
           >
             <div className="px-6 h-[122px] scrollbar overflow-y-scroll">
               <ol className="list-decimal">
-                {[1, 2, 3, 4, 5, 1, 1].map((user, i) => {
+                {player.map((user, i) => {
                   return (
                     <li key={i}>
-                      <div className="flex justify-between items-center">
-                        <span>user</span>
+                      <div
+                        className="flex justify-between items-center cursor-pointer"
+                        onClick={() => deleteUserHandler(user)}
+                      >
+                        <span>{user}</span>
                         <BsFillTrashFill className="text-rose-600" />
                       </div>
                     </li>
@@ -66,13 +72,16 @@ function AddPlayer() {
               </ol>
             </div>
             <div className="mt-4 px-3">
-              <input
-                type="text"
-                className="outline-none border border-teal-400 rounded-lg mr-2 px-2 py-1 text-sm"
-              />
-              <motion.button className="text-xs bg-teal-400 text-white rounded-full p-2">
-                Add
-              </motion.button>
+              <form onSubmit={(e) => addUserHandler(e, newPlayer)}>
+                <input
+                  type="text"
+                  ref={newPlayer}
+                  className="outline-none border border-teal-400 rounded-lg mr-2 px-2 py-1 text-sm"
+                />
+                <motion.button className="text-xs bg-teal-400 text-white rounded-full p-2">
+                  Add
+                </motion.button>
+              </form>
             </div>
           </motion.div>
         )}
@@ -95,5 +104,11 @@ function AddPlayer() {
     </motion.div>
   );
 }
+
+AddPlayer.propTypes = {
+  player: PropTypes.array,
+  addUserHandler: PropTypes.func,
+  deleteUserHandler: PropTypes.func,
+};
 
 export default AddPlayer;

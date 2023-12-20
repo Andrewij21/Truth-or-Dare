@@ -19,11 +19,15 @@ export default function PickName({ player }) {
     if (player[randomName] == name) {
       return pickRandomName();
     }
+
+    //Give random animation effect
     let t = setInterval(() => {
       i++;
       setName(player[i]);
       if (i == player.length) i = 0;
     }, 200);
+
+    // Animation duration
     setTimeout(() => {
       setLoading(false);
       clearInterval(t);

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import AddPlayer from "./components/AddPlayer";
 import PickMessage from "./components/PickMessage";
 import PickName from "./components/PickName";
+import truthOrDare from "../data.json";
 
 function App() {
   const [player, setPlayer] = useState([]);
@@ -46,7 +47,7 @@ function App() {
       />
       <div className="bg-slate-400 mx-auto max-w-[80%] sm:max-w-[70%] md:max-w-[60%] lg:max-w-[50%] min-h-[20rem] rounded-lg py-8 px-4">
         <PickName player={player} />
-        <PickMessage />
+        <PickMessage truthOrDare={truthOrDare} />
       </div>
     </main>
   );

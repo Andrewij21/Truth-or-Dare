@@ -45,7 +45,7 @@ function App() {
         deleteUserHandler={deleteUserHandler}
       />
       <div className="bg-slate-400 mx-auto max-w-[80%] sm:max-w-[70%] md:max-w-[60%] lg:max-w-[50%] min-h-[20rem] rounded-lg py-8 px-4">
-        <PickName />
+        <PickName player={player} />
         <PickMessage />
       </div>
     </main>
